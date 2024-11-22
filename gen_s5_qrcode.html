@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>s5代理二维码生成器</title>
+<style>
+  #qrcode-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 50px;
+  }
+  #qrcode-ios, #qrcode-android {
+    display: inline-block;
+    margin: 0 100px;
+  }
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<h1>s5代理二维码生成器</h1>
+<label for="proxyInfo">代理信息 (例如：vffuslhg:zjdfenrnd@159.100.151.1:5784):</label><br>
+<textarea id="proxyInfo" name="proxyInfo" rows="4" cols="50"></textarea><br><br>
+
+<label for="remarks">代理备注（例如：法国108）</label><br>
+<input type="text" id="remarks" name="remarks"><br><br>
+
+<button onclick="generateQRCode()">生成二维码</button><br><br>
+
+<div id="qrcode-ios">iOS小火箭用二维码</div>
+<div id="qrcode-android">安卓SagetNet用二维码</div>
+
+<script>
+function generateQRCode() {
+    var proxyInfo = document.getElementById('proxyInfo').value;
+    var remarks = document.getElementById('remarks').value;
+    var base64ProxyInfo = btoa(proxyInfo);
+    var qrCodeTextiOS = "socks://" + base64ProxyInfo + "?remarks=" + encodeURIComponent(remarks);
+    var qrCodeTextAndroid = "socks://" + proxyInfo + "#" + encodeURIComponent(remarks);
+
+    // 更新iOS用二维码的标题，包含代理备注
+    document.getElementById("qrcode-ios").innerHTML = "iOS小火箭用二维码 (" + remarks + "):";
+        document.getElementById("qrcode-android").innerHTML = "安卓SagetNet用二维码 (" + remarks + "):";
+    
+    // 生成iOS用的二维码
+    new QRCode(document.getElementById("qrcode-ios"), {
+        text: qrCodeTextiOS,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    
+    // 生成Android用的二维码
+    new QRCode(document.getElementById("qrcode-android"), {
+        text: qrCodeTextAndroid,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+</script>
+</body>
+</html>
