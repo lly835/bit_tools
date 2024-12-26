@@ -1,3 +1,8 @@
+#excel拖拽后设置密码
+#如果要打包成可执行文件，需把hook-tkinterdnd2.py和excel_encry.py2个文件放在一个目录下，然后执行
+#pyinstaller -F -w excel_encry.py --additional-hooks-dir=.
+# 再python3.9环境运行通过
+
 import tkinter as tk
 from tkinterdnd2 import DND_FILES, TkinterDnD
 import msoffcrypto
